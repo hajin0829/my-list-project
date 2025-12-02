@@ -1,0 +1,66 @@
+/* 전체 기본 스타일 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: 'Apple SD Gothic Neo', sans-serif;
+    color: #333;
+}
+
+/* 상단 네비게이션 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 15px 25px;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #6a79ff; /* 포인트 컬러 */
+}
+
+/* 메인 내용 컨테이너 */
+.content-container {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 카드 형태 박스 */
+.card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* 푸터 */
+.footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.logo a {
+    text-decoration: none;   /* 밑줄 제거 */
+    color: inherit;          /* 글자 색은 원래 h1의 색을 그대로 사용 */
+}
