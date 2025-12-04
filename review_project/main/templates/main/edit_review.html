@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+
+{% block title %}리뷰 수정{% endblock %}
+
+{% block content %}
+<h2>리뷰 수정하기</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>카테고리</label><br>
+    <select name="category" required>
+        <option value="movie" {% if review.category == "movie" %}selected{% endif %}>영화</option>
+        <option value="book" {% if review.category == "book" %}selected{% endif %}>도서</option>
+        <option value="music" {% if review.category == "music" %}selected{% endif %}>노래</option>
+    </select>
+    <br><br>
+
+    <label>제목</label><br>
+    <input type="text" name="title" value="{{ review.title }}" required><br><br>
+
+    <label>작성자</label><br>
+    <input type="text" name="author" value="{{ review.author }}" required><br><br>
+
+    <label>리뷰 내용</label><br>
+    <textarea name="content" cols="40" rows="10" required>{{ review.content }}</textarea><br><br>
+
+    <button type="submit">수정 완료</button>
+</form>
+
+{% endblock %}

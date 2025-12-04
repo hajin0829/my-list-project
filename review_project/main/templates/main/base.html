@@ -10,15 +10,16 @@
 </head>
 
 <body>
-    <header class="navbar">
-        <h1 class="logo"><a href="/" class="logo-link">List</a></h1>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/about/">About</a>
-            <a href="/contact/">Contact</a>
-            <a href="/review/">Review</a>
-        </nav>
-    </header>
+<header class="navbar">
+    <h1 class="logo"><a href="/" class="logo-link">List</a></h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="{% url 'review' %}">Review</a>
+        <a href="{% url 'review_list' %}">R-List</a>
+        <a href="/contact/">Contact</a>
+    </nav>
+</header>
 
     <main class="content-container">
         {% block content %}

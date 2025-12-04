@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+
+<h1>리뷰 목록</h1>
+
+<div>
+    <strong>카테고리:</strong>
+    <a href="/reviews/">전체</a> |
+    <a href="/reviews/?category=movie">영화</a> |
+    <a href="/reviews/?category=book">도서</a> |
+    <a href="/reviews/?category=music">노래</a>
+</div>
+
+<hr>
+
+{% for review in reviews %}
+    <h3>[{{ review.get_category_display }}] {{ review.title }}</h3>
+    <p>작성자: {{ review.author }}</p>
+    <p>{{ review.content }}</p>
+    <small>{{ review.created_at }}</small>
+    <br>
+
+    <a href="{% url 'review_edit' review.id %}">수정</a> |
+    <a href="{% url 'review_delete' review.id %}"
+       onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+
+    <hr>
+{% endfor %}
+
+{% endblock %}

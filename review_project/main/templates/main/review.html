@@ -8,16 +8,23 @@
 <form action="" method="POST">
     {% csrf_token %}
 
+    <label>카테고리</label><br>
+    <select name="category" required>
+        <option value="movie">영화</option>
+        <option value="book">도서</option>
+        <option value="music">노래</option>
+    </select>
+    <br><br>
+
     <label>제목</label><br>
     <input type="text" name="title" required><br><br>
 
     <label>작성자</label><br>
-    <input type="text" name="name" required><br><br>
+    <input type="text" name="author" required><br><br>
 
     <label>리뷰 내용</label><br>
-    <textarea name="message" cols="40" rows="10" required></textarea><br><br>
+    <textarea name="content" cols="40" rows="10" required></textarea><br><br>
 
     <button type="submit">등록</button>
 </form>
-
 {% endblock %}

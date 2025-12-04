@@ -64,3 +64,11 @@ nav a:hover {
     text-decoration: none;   /* 밑줄 제거 */
     color: inherit;          /* 글자 색은 원래 h1의 색을 그대로 사용 */
 }
+
+/* 네비게이션 바 내부 a 기본 스타일 무시하도록 강제 */
+.dropdown-content a {
+    display: block !important;   /* 가로 → 세로로 강제 */
+    padding: 10px 15px;
+    white-space: nowrap;         /* 글자 줄바꿈 방지 */
+}
+
