@@ -71,3 +71,35 @@ def delete_review(request, id):
     review = Review.objects.get(id=id)
     review.delete()
     return redirect('review_list')
+
+def contact(request):
+    return render(request, 'main/contact.html')
+
+from .models import Review, PersonalList, PersonalListItem
+
+def plist_home(request):
+    lists = PersonalList.objects.all().order_by('-created_at')
+    return render(request, 'main/plist_home.html', {'lists': lists})
+
+def plist_create(request):
+    reviews = Review.objects.all().order_by('-created_at')
+
+    if request.method == 'POST':
+        list_name = request.POST.get('name')
+        selected_reviews = request.POST.getlist('reviews')
+
+        # 리스트 생성
+        plist = PersonalList.objects.create(name=list_name)
+
+        # 선택된 리뷰를 리스트에 추가
+        for r_id in selected_reviews:
+            PersonalListItem.objects.create(
+                personal_list=plist,
+                review_id=r_id
+            )
+
+        return redirect('plist_home')
+
+    return render(request, 'main/plist_create.html', {
+        'reviews': reviews
+    })

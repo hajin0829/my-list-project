@@ -15,5 +15,7 @@ urlpatterns = [
     path('review/menu/', views.review_menu, name='review_menu'),
     path('review/<int:id>/edit/', views.edit_review, name='review_edit'),
     path('review/<int:id>/delete/', views.delete_review, name='review_delete'),
-
+    path('contact/', views.contact, name='contact'),
+    path('plist/', views.plist_home, name='plist_home'),
+    path('plist/create/', views.plist_create, name='plist_create'),
 ]

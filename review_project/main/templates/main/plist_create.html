@@ -1,0 +1,25 @@
+{% extends "main/base.html" %}
+
+{% block title %}P-List 만들기{% endblock %}
+
+{% block content %}
+<h2>P-List 만들기</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>리스트 이름</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>리뷰 선택</label><br>
+    {% for review in reviews %}
+        <label>
+            <input type="checkbox" name="reviews" value="{{ review.id }}">
+            [{{ review.get_category_display }}] {{ review.title }} - {{ review.author }}
+        </label><br>
+    {% endfor %}
+
+    <br>
+    <button type="submit">리스트 생성하기</button>
+</form>
+{% endblock %}

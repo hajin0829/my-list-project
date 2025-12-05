@@ -1,0 +1,22 @@
+{% extends "main/base.html" %}
+
+{% block title %}P-List{% endblock %}
+
+{% block content %}
+<h2>P-List</h2>
+
+<a href="{% url 'plist_create' %}">새 리스트 만들기</a>
+<hr>
+
+{% for l in lists %}
+    <h3>{{ l.name }}</h3>
+    <ul>
+        {% for item in l.items.all %}
+            <li>[{{ item.review.get_category_display }}] {{ item.review.title }}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+{% empty %}
+    <p>아직 개인 리스트가 없습니다.</p>
+{% endfor %}
+{% endblock %}
