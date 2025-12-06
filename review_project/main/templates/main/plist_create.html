@@ -5,21 +5,74 @@
 {% block content %}
 <h2>P-List 만들기</h2>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
     <label>리스트 이름</label><br>
     <input type="text" name="name" required><br><br>
 
-    <label>리뷰 선택</label><br>
-    {% for review in reviews %}
-        <label>
-            <input type="checkbox" name="reviews" value="{{ review.id }}">
-            [{{ review.get_category_display }}] {{ review.title }} - {{ review.author }}
-        </label><br>
-    {% endfor %}
+
+    <label>대표 사진 업로드</label><br>
+    <input type="file" name="cover_image" accept="image/*"><br><br>
+
+
+    {% if plist.cover_image %}
+        <img src="{{ plist.cover_image.url }}" alt="커버 이미지" style="width:200px; border-radius:10px;">
+    {% else %}
+        <p>커버 이미지 없음</p>
+    {% endif %}
+
+
+    <!-- 검색창 -->
+    <label>리뷰 검색</label><br>
+    <input type="text" id="reviewSearch" placeholder="리뷰 검색...">
+    <br><br>
+
+    <!-- 리뷰 선택: 딱 하나의 목록 -->
+    <div id="reviewList">
+        {% for review in reviews %}
+            <div class="review-item"
+                 data-search="{{ review.title }} {{ review.author }} {{ review.content }} {{ review.get_category_display }}">
+                <label>
+                    <input type="checkbox" name="reviews" value="{{ review.id }}">
+                    [{{ review.get_category_display }}] {{ review.title }} - {{ review.author }}
+                </label>
+            </div>
+        {% endfor %}
+    </div>
 
     <br>
     <button type="submit">리스트 생성하기</button>
+
 </form>
+
+<!-- 검색 필터 JS -->
+<script>
+document.getElementById("reviewSearch").addEventListener("keyup", function () {
+    let keyword = this.value.toLowerCase().trim();
+    let items = document.querySelectorAll(".review-item");
+
+    items.forEach(item => {
+        let text = item.dataset.search.toLowerCase();
+        // 검색어 없으면 전체 표시, 검색어 있으면 필터링
+        if (keyword === "" || text.includes(keyword)) {
+            item.style.display = "block";
+        } else {
+            item.style.display = "none";
+        }
+    });
+});
+</script>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <!-- 리뷰 선택 부분은 기존 코드 유지 -->
+
+    <button type="submit">리스트 생성</button>
+</form>
+
+
 {% endblock %}

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
+from .forms import PersonalListForm
 from .models import Review
 from django.http import HttpResponse
+
 
 # Create your views here.
 
@@ -89,7 +91,8 @@ def plist_create(request):
         selected_reviews = request.POST.getlist('reviews')
 
         # 리스트 생성
-        plist = PersonalList.objects.create(name=list_name)
+        plist = PersonalList.objects.create(name=list_name, cover_image=request.FILES.get("cover_image"))
+        
 
         # 선택된 리뷰를 리스트에 추가
         for r_id in selected_reviews:
@@ -99,7 +102,25 @@ def plist_create(request):
             )
 
         return redirect('plist_home')
+    
+    if request.method == "POST":
+        form = PersonalListForm(request.POST, request.FILES)
 
-    return render(request, 'main/plist_create.html', {
-        'reviews': reviews
+        if form.is_valid():
+            plist = form.save()
+            
+            # 선택된 리뷰 처리
+            selected_reviews = request.POST.getlist("selected_reviews")
+            plist.reviews.set(selected_reviews)
+
+            return redirect("plist_list")
+        
+    else:
+        form = PersonalListForm()
+
+    return render(request, "main/plist_create.html", {
+        "form": form,
+        "reviews": reviews
     })
+    
+    

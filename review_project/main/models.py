@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 from django.db import models
+from django.conf import settings
 
 class Review(models.Model):
     CATEGORY_CHOICES = [
@@ -23,8 +24,12 @@ class Review(models.Model):
     
     # 개인 리스트 (리스트 제목만 가진 상위 객체)
 class PersonalList(models.Model):
-    name = models.CharField(max_length=100)  # 리스트 제목
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null = True, blank = True)
+    title = models.CharField(max_length=100)
+    cover_image = models.ImageField(upload_to='plist_covers/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    reviews = models.ManyToManyField(Review, through="PersonalListItem")
 
     def __str__(self):
         return self.name
