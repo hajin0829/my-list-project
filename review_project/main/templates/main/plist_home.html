@@ -1,22 +1,75 @@
 {% extends "main/base.html" %}
 
-{% block title %}P-List{% endblock %}
-
 {% block content %}
 <h2>P-List</h2>
 
-<a href="{% url 'plist_create' %}">새 리스트 만들기</a>
+<a href="{% url 'plist_create' %}" class="btn-create">＋ 새 리스트 만들기</a>
 <hr>
 
-{% for l in lists %}
-    <h3>{{ l.name }}</h3>
-    <ul>
-        {% for item in l.items.all %}
-            <li>[{{ item.review.get_category_display }}] {{ item.review.title }}</li>
-        {% endfor %}
-    </ul>
-    <hr>
-{% empty %}
-    <p>아직 개인 리스트가 없습니다.</p>
+{% for plist in lists %}
+
+<div class="plist-card">
+
+    <!-- 이미지 영역 -->
+    <div class="plist-left">
+        {% if plist.cover_image %}
+            <img src="{{ plist.cover_image.url }}" class="plist-cover">
+        {% else %}
+            <div class="placeholder">이미지 없음</div>
+        {% endif %}
+    </div>
+
+    <!-- 텍스트 영역 -->
+    <div class="plist-right">
+        <h3>{{ plist.title }}</h3>
+        <p class="plist-author">작성자: {{ plist.user.username }}</p>
+    </div>
+
+</div>
+
+<hr>
+
 {% endfor %}
+
+<style>
+.plist-card {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 25px;
+    align-items: center;
+    padding: 10px 0;
+}
+
+/* 이미지 크기 줄임 */
+.plist-cover {
+    width: 120px;   /* 🔥 원하는 만큼 조절 가능 */
+    border-radius: 10px;
+}
+
+.placeholder {
+    width: 120px;
+    height: 120px;
+    background: #eee;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+}
+
+.plist-right h3 {
+    margin: 0 0 5px 0;
+}
+
+.plist-author {
+    margin: 0;
+    color: gray;
+}
+
+.btn-create {
+    font-weight: bold;
+    color: #4460ff;
+}
+</style>
+
 {% endblock %}

@@ -9,18 +9,28 @@
     {% csrf_token %}
 
     <label>리스트 이름</label><br>
-    <input type="text" name="name" required><br><br>
+    <input type="text" name="title" required>
 
 
-    <label>대표 사진 업로드</label><br>
+
+    <br><br><label>대표 사진 업로드</label><br>
     <input type="file" name="cover_image" accept="image/*"><br><br>
 
+    <img id="coverPreview" style="display:none; width:200px; border-radius:10px;">
 
-    {% if plist.cover_image %}
-        <img src="{{ plist.cover_image.url }}" alt="커버 이미지" style="width:200px; border-radius:10px;">
-    {% else %}
-        <p>커버 이미지 없음</p>
-    {% endif %}
+    <script>
+    document.getElementById('coverInput').addEventListener('change', function(event) {
+        const img = document.getElementById('coverPreview');
+        const file = event.target.files[0];
+
+        if (file) {
+            img.src = URL.createObjectURL(file);
+            img.style.display = 'block';
+        } else {
+            img.style.display = 'none';
+        }
+    });
+    </script>
 
 
     <!-- 검색창 -->
@@ -64,15 +74,6 @@ document.getElementById("reviewSearch").addEventListener("keyup", function () {
 });
 </script>
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <!-- 리뷰 선택 부분은 기존 코드 유지 -->
-
-    <button type="submit">리스트 생성</button>
-</form>
 
 
 {% endblock %}

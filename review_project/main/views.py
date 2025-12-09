@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import PersonalListForm
 from .models import Review
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -83,16 +87,22 @@ def plist_home(request):
     lists = PersonalList.objects.all().order_by('-created_at')
     return render(request, 'main/plist_home.html', {'lists': lists})
 
+@login_required
 def plist_create(request):
     reviews = Review.objects.all().order_by('-created_at')
 
     if request.method == 'POST':
-        list_name = request.POST.get('name')
+        title = request.POST.get("title")
+        cover_image = request.FILES.get("cover_image")
         selected_reviews = request.POST.getlist('reviews')
 
         # 리스트 생성
-        plist = PersonalList.objects.create(name=list_name, cover_image=request.FILES.get("cover_image"))
         
+        plist = PersonalList.objects.create(
+            user=request.user,
+            title=title,
+            cover_image=cover_image
+        )
 
         # 선택된 리뷰를 리스트에 추가
         for r_id in selected_reviews:
@@ -122,5 +132,41 @@ def plist_create(request):
         "form": form,
         "reviews": reviews
     })
-    
-    
+
+
+
+
+def signup(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "이미 존재하는 아이디입니다.")
+            return redirect('signup')
+
+        User.objects.create_user(username=username, password=password)
+        messages.success(request, "회원가입 성공! 로그인 해주세요.")
+        return redirect('login')
+
+    return render(request, 'main/signup.html')
+
+
+def user_login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)  # 로그인 수행
+            return redirect('home')
+        else:
+            messages.error(request, "로그인 실패! 아이디 또는 비밀번호 확인하세요.")
+
+    return render(request, 'main/login.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('home')
