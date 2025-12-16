@@ -1,0 +1,30 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+
+    <h2>{{ plist.title }}</h2>
+
+    {% if plist.cover_image %}
+        <img src="{{ plist.cover_image.url }}"
+             style="width:250px; border-radius:12px; margin-bottom:20px;">
+    {% endif %}
+
+    <hr>
+
+    <h3>contents</h3>
+
+    <ul style="list-style: none; padding-left: 0; margin-left: 0;">
+        {% for review in plist.reviews.all %}
+            <li style="margin-bottom: 15px;">
+                <a href="{% url 'review_detail' review.id %}">
+                    {{ review.title }}
+                </a>
+            </li>
+        {% empty %}
+            <li>리스트에 담긴 리뷰가 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

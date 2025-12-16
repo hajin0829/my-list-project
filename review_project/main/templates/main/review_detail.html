@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+
+    <h2>{{ review.title }}</h2>
+
+    <p style="color: gray;">
+        {{ review.get_category_display }}
+    </p>
+
+    <hr>
+
+    <p style="white-space: pre-line;">
+        {{ review.content }}
+    </p>
+
+    <a href="{% url 'review_list' %}">← 리뷰 목록으로</a>
+
+</div>
+{% endblock %}

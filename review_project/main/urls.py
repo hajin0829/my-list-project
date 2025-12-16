@@ -23,5 +23,12 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     # 회원가입
     path('signup/', views.signup, name='signup'),
+    #p-list 내부
+    path('plist/', views.plist_home, name='plist_home'),
+    path('plist/<int:plist_id>/', views.plist_detail, name='plist_detail'),
+    #리뷰 내부
+    path('review/<int:review_id>/', views.review_detail, name='review_detail'),
+    #p-list 삭제
+    path('plist/<int:pk>/delete/', views.plist_delete, name='plist_delete'),
 
 ]

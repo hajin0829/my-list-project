@@ -6,6 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from .models import PersonalList
+from .models import Review
 
 
 # Create your views here.
@@ -170,3 +173,35 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('home')
+
+
+#p-list 내부 함수
+def plist_detail(request, plist_id):
+    plist = get_object_or_404(PersonalList, id=plist_id)
+
+    return render(request, 'main/plist_detail.html', {
+        'plist': plist
+    })
+
+#리뷰 내부 함수
+def review_detail(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+
+    return render(request, 'main/review_detail.html', {
+        'review': review
+    })
+
+#p-list 삭제 함수
+@login_required
+def plist_delete(request, pk):
+    plist = get_object_or_404(PersonalList, pk=pk)
+
+    # 본인 리스트만 삭제 가능 (중요)
+    if plist.user != request.user:
+        return redirect('plist_home')
+
+    if request.method == "POST":
+        plist.delete()
+        return redirect('plist_home')
+
+    return redirect('plist_home')

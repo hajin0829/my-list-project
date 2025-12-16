@@ -13,7 +13,8 @@
     <!-- 이미지 영역 -->
     <div class="plist-left">
         {% if plist.cover_image %}
-            <img src="{{ plist.cover_image.url }}" class="plist-cover">
+            <img src="{{ plist.cover_image.url }}" class="plist-cover"
+            style="width:120px; margin-top: 0; display: block;">
         {% else %}
             <div class="placeholder">이미지 없음</div>
         {% endif %}
@@ -21,10 +22,24 @@
 
     <!-- 텍스트 영역 -->
     <div class="plist-right">
-        <h3>{{ plist.title }}</h3>
-        <p class="plist-author">작성자: {{ plist.user.username }}</p>
+        <h3 style="display:flex; align-items:center; gap:10px;">
+            <a href="{% url 'plist_detail' plist.id %}">
+                {{ plist.title }}
+            </a>
+
+            {% if user == plist.user %}
+                <form method="POST"
+                    action="{% url 'plist_delete' plist.id %}"
+                    onsubmit="return confirm('삭제할까요?');">
+                    {% csrf_token %}
+                    <button type="submit" style="color:red;">삭제</button>
+                </form>
+            {% endif %}
+        </h3>
+
     </div>
 
+    
 </div>
 
 <hr>
@@ -35,7 +50,7 @@
 .plist-card {
     display: flex;
     gap: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     align-items: center;
     padding: 10px 0;
 }

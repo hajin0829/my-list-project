@@ -16,9 +16,11 @@
 <hr>
 
 {% for review in reviews %}
-    <h3>[{{ review.get_category_display }}] {{ review.title }}</h3>
-    <p>작성자: {{ review.author }}</p>
-    <p>{{ review.content }}</p>
+    <h3 style="margin-bottom: 0;">
+        <a href="{% url 'review_detail' review.id %}">
+            [{{ review.get_category_display }}] {{ review.title }}
+        </a>
+    </h3>
     <small>{{ review.created_at }}</small>
     <br>
 
