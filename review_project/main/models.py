@@ -19,6 +19,8 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.CharField(max_length=50)
 
+    rating = models.IntegerField(default=5) #별점 남기기 기능
+
     def __str__(self):
         return f"[{self.get_category_display()}] {self.title}"
     
@@ -32,7 +34,7 @@ class PersonalList(models.Model):
     reviews = models.ManyToManyField(Review, through="PersonalListItem")
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 # 리스트에 담긴 항목 (리뷰에서 선택)
@@ -41,4 +43,5 @@ class PersonalListItem(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.personal_list.name} - {self.review.title}"
+        return f"{self.personal_list.title} - {self.review.title}"
+    

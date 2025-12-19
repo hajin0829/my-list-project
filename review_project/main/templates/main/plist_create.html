@@ -45,7 +45,7 @@
                  data-search="{{ review.title }} {{ review.author }} {{ review.content }} {{ review.get_category_display }}">
                 <label>
                     <input type="checkbox" name="reviews" value="{{ review.id }}">
-                    [{{ review.get_category_display }}] {{ review.title }} - {{ review.author }}
+                    [{{ review.get_category_display }}] {{ review.title }}
                 </label>
             </div>
         {% endfor %}

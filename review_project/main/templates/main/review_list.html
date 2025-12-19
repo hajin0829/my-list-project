@@ -13,14 +13,35 @@
     <a href="/reviews/?category=music">노래</a>
 </div>
 
+<!-- 검색창 -->
+<form method="get" style="margin-top:10px;">
+    {% if category %}
+        <input type="hidden" name="category" value="{{ category }}">
+    {% endif %}
+
+    <input type="text"
+           name="q"
+           placeholder="리뷰 검색"
+           value="{{ q|default:'' }}">
+
+    <button type="submit">검색</button>
+</form>
+
+
 <hr>
 
 {% for review in reviews %}
     <h3 style="margin-bottom: 0;">
         <a href="{% url 'review_detail' review.id %}">
             [{{ review.get_category_display }}] {{ review.title }}
+            <a><small>{% for i in "12345"|slice:":review.rating"|make_list %}
+            ⭐
+            {% endfor %}</small>
         </a>
     </h3>
+    
+
+    
     <small>{{ review.created_at }}</small>
     <br>
 
@@ -30,5 +51,6 @@
 
     <hr>
 {% endfor %}
+
 
 {% endblock %}

@@ -28,13 +28,14 @@ def review(request):
         category = request.POST.get("category")
         title = request.POST.get("title")
         content = request.POST.get("content")
-        author = request.POST.get("author")
+        rating=request.POST("rating")
+
 
         Review.objects.create(
             category=category,
             title=title,
             content=content,
-            author=author
+
         )
 
 
@@ -46,18 +47,30 @@ def review(request):
 def review_success(request):
     return render(request, 'main/review_success.html')
 
+from django.db.models import Q
+
 def review_list(request):
     category = request.GET.get('category')
+    q = request.GET.get('q')
+
+    reviews = Review.objects.all().order_by('-created_at')
 
     if category:
-        reviews = Review.objects.filter(category=category).order_by('-created_at')
-    else:
-        reviews = Review.objects.all().order_by('-created_at')
+        reviews = reviews.filter(category=category)
+
+    if q:
+        reviews = reviews.filter(
+            Q(title__icontains=q) |
+            Q(content__icontains=q) |
+            Q(author__icontains=q)
+        )
 
     return render(request, 'main/review_list.html', {
         'reviews': reviews,
-        'selected_category': category
+        'category': category,
+        'q': q,
     })
+
 
 def review_menu(request):
     return render(request, 'main/review_menu.html')
