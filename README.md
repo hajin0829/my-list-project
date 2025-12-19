@@ -7,12 +7,3 @@
 추가
 - 리스트 대표사진 등록 기능
 - 보고 싶은, 볼 예정인 작품 등록 기능
-
-
-
-URL 설계 원칙(RESTful-ish)
-- 목록: /items/
-- 상세: /items/<int:pk>/
-- 생성: /items/new/
-- 수정: /items/<int:pk>/edit/
-- 삭제: /items/<int:pk>/delete/
