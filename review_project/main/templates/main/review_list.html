@@ -34,11 +34,19 @@
     <h3 style="margin-bottom: 0;">
         <a href="{% url 'review_detail' review.id %}">
             [{{ review.get_category_display }}] {{ review.title }}
-            <a><small>{% for i in "12345"|slice:":review.rating"|make_list %}
-            ⭐
-            {% endfor %}</small>
         </a>
+
+        <small>
+            {% for _ in "12345" %}
+                {% if forloop.counter <= review.rating %}
+                    ⭐
+                {% else %}
+                    
+                {% endif %}
+            {% endfor %}
+        </small>
     </h3>
+
     
 
     

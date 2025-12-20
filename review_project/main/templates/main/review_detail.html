@@ -3,10 +3,20 @@
 {% block content %}
 <div style="max-width: 800px; margin: 0 auto;">
 
-    <h2>{{ review.title }}
-    <a><small>{% for i in "12345"|slice:":review.rating"|make_list %}
-    ⭐
-    {% endfor %}</small></h2>
+    <h2>{{ review.title }}</h2>
+    <p>{{ review.content }}</p>
+
+    <p>
+        {% for _ in "12345" %}
+            {% if forloop.counter <= review.rating|default:0 %}
+                ⭐
+            {% else %}
+                ☆
+            {% endif %}
+        {% endfor %}
+    </p>
+
+
 
     <p style="color: gray;">
         {{ review.get_category_display }}

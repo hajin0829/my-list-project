@@ -19,7 +19,7 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.CharField(max_length=50)
 
-    rating = models.IntegerField(default=5) #별점 남기기 기능
+    rating = models.IntegerField(default=0) #별점 남기기 기능
 
     def __str__(self):
         return f"[{self.get_category_display()}] {self.title}"

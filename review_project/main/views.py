@@ -25,23 +25,16 @@ def add_review(request):
 
 def review(request):
     if request.method == "POST":
-        category = request.POST.get("category")
-        title = request.POST.get("title")
-        content = request.POST.get("content")
-        rating=request.POST("rating")
-
-
         Review.objects.create(
-            category=category,
-            title=title,
-            content=content,
-
+            category=request.POST.get("category"),
+            title=request.POST.get("title"),
+            content=request.POST.get("content"),
+            rating=int(request.POST.get("rating", 0))  # ⭐ 핵심
         )
-
-
         return redirect('review_success')
 
     return render(request, 'main/review.html')
+
 
 
 def review_success(request):

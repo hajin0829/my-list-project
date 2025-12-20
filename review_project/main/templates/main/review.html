@@ -3,6 +3,22 @@
 {% block title %}리뷰 작성{% endblock %}
 
 {% block content %}
+
+<style>
+#star-rating {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.star {
+    color: #ccc;
+}
+
+.star.selected {
+    color: gold;
+}
+</style>
+
 <h2>리뷰 작성</h2>
 
 <form action="" method="POST">
@@ -19,14 +35,19 @@
     <label>제목</label><br>
     <input type="text" name="title" required><br><br>
 
-    ⭐ 별점 <br>
-    <select name="rating">
-        <option value="5">★★★★★ (5)</option>
-        <option value="4">★★★★☆ (4)</option>
-        <option value="3">★★★☆☆ (3)</option>
-        <option value="2">★★☆☆☆ (2)</option>
-        <option value="1">★☆☆☆☆ (1)</option>
-    </select><br><br>
+    <label>별점</label>
+    
+    <input type="hidden" name="rating" id="rating" value="0">
+
+    <div id="star-rating">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+
+
 
 
     <label>리뷰 내용</label><br>
@@ -34,4 +55,26 @@
 
     <button type="submit">등록</button>
 </form>
+
+<script>
+const stars = document.querySelectorAll('.star');
+const ratingInput = document.getElementById('rating');
+
+stars.forEach(star => {
+    star.addEventListener('click', () => {
+        const value = star.dataset.value;
+        ratingInput.value = value;
+
+        stars.forEach(s => {
+            s.classList.toggle(
+                'selected',
+                s.dataset.value <= value
+            );
+        });
+    });
+});
+</script>
+
+
+
 {% endblock %}
