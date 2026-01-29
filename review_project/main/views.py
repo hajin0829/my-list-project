@@ -29,8 +29,7 @@ def review(request):
             category=request.POST.get("category"),
             title=request.POST.get("title"),
             content=request.POST.get("content"),
-            rating=int(request.POST.get("rating", 0))  # ⭐ 핵심
-        )
+            rating=int(request.POST.get("rating", 0)))
         return redirect('review_success')
 
     return render(request, 'main/review.html')
@@ -105,7 +104,7 @@ def plist_create(request):
         cover_image = request.FILES.get("cover_image")
         selected_reviews = request.POST.getlist('reviews')
 
-        # 리스트 생성
+        #리스트 생성
         
         plist = PersonalList.objects.create(
             user=request.user,
@@ -113,7 +112,7 @@ def plist_create(request):
             cover_image=cover_image
         )
 
-        # 선택된 리뷰를 리스트에 추가
+        #선택된 리뷰를 리스트에 추가
         for r_id in selected_reviews:
             PersonalListItem.objects.create(
                 personal_list=plist,
@@ -128,7 +127,7 @@ def plist_create(request):
         if form.is_valid():
             plist = form.save()
             
-            # 선택된 리뷰 처리
+            #선택된 리뷰 처리
             selected_reviews = request.POST.getlist("selected_reviews")
             plist.reviews.set(selected_reviews)
 
@@ -168,7 +167,7 @@ def user_login(request):
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)  # 로그인 수행
+            login(request, user)  #로그인 수행
             return redirect('home')
         else:
             messages.error(request, "로그인 실패! 아이디 또는 비밀번호 확인하세요.")
@@ -202,7 +201,7 @@ def review_detail(request, review_id):
 def plist_delete(request, pk):
     plist = get_object_or_404(PersonalList, pk=pk)
 
-    # 본인 리스트만 삭제 가능 (중요)
+    #본인 리스트만 삭제 가능
     if plist.user != request.user:
         return redirect('plist_home')
 

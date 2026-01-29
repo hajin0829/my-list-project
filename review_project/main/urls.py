@@ -8,7 +8,7 @@ urlpatterns = [
 urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
-    # path('contact/', views.contact, name='contact'),
+    #path('contact/', views.contact, name='contact'),
     path('review/', views.review, name='review'),
     path('review/success/', views.review_success, name='review_success'),
     path('reviews/', views.review_list, name='review_list'),
@@ -18,10 +18,10 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('plist/', views.plist_home, name='plist_home'),
     path('plist/create/', views.plist_create, name='plist_create'),
-    # 로그인 & 로그아웃
+    #로그인, 로그아웃
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
-    # 회원가입
+    #회원가입
     path('signup/', views.signup, name='signup'),
     #p-list 내부
     path('plist/', views.plist_home, name='plist_home'),
