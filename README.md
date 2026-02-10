@@ -14,17 +14,26 @@
 
 # 실행
 git clone https://github.com/hajin0829/my-list-project.git
+
 cd my-list-project
 
+
 python -m venv venv
+
 venv\Scripts\activate
 
+
 pip install django
+
 pip install mysqlclient
+
 pip install Pillow
 
+
 cd review_project
+
 python manage.py migrate
+
 
 python manage.py runserver
 
